@@ -5,13 +5,18 @@ import { downloadURI } from "$/util/downloadURI";
 
 type GeneratedImageProps = {
   size: number;
+  prompt: string;
   src?: string;
 };
 
 const PADDING = 4;
 const BORDER = 1;
 
-export const GeneratedImage: FC<GeneratedImageProps> = ({ size, src }) => {
+export const GeneratedImage: FC<GeneratedImageProps> = ({
+  size,
+  src,
+  prompt,
+}) => {
   const [isOverlayVisible, setOverlayVisible] = useState(false);
 
   const isImageLoaded = src != null;
@@ -26,8 +31,9 @@ export const GeneratedImage: FC<GeneratedImageProps> = ({ size, src }) => {
   }, []);
 
   const onDownloadImage = useCallback(() => {
-    downloadURI(src, "image.svg");
-  }, [src]);
+    const sanitizedPrompt = prompt.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    downloadURI(src, `${sanitizedPrompt}-${size}.svg`);
+  }, [src, prompt, size]);
 
   return (
     <Flex

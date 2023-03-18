@@ -15,8 +15,10 @@
     "@tabler/icons-react": "^2.10.0",
     "embla-carousel-react": "^7.1.0",
     "next": "^13.2.4",
+    "potrace": "^2.1.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sharp": "^0.31.3"
   },
   "scripts": {
     "dev": "next dev",
@@ -26,7 +28,9 @@
   },
   "devDependencies": {
     "@types/node": "18.15.3",
+    "@types/potrace": "^2.1.1",
     "@types/react": "18.0.28",
+    "@types/sharp": "^0.31.1",
     "eslint-config-next": "^13.2.4",
     "typescript": "^5.0.2"
   }

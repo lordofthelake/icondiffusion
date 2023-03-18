@@ -125,7 +125,12 @@ export default function Page() {
             })}
           >
             {imageSources.map((src, i) => (
-              <GeneratedImage size={imageSize} src={src} key={i} />
+              <GeneratedImage
+                size={imageSize}
+                src={src}
+                key={i}
+                prompt={prompt}
+              />
             ))}
           </Flex>
         ) : null}
