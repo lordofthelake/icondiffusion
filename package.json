@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@mantine/carousel": "^6.0.2",
+    "@mantine/core": "^6.0.2",
+    "@mantine/dropzone": "^6.0.2",
+    "@mantine/form": "^6.0.2",
+    "@mantine/hooks": "^6.0.2",
+    "@mantine/modals": "^6.0.2",
+    "@mantine/next": "^6.0.2",
+    "@mantine/notifications": "^6.0.2",
+    "@mantine/nprogress": "^6.0.2",
+    "@mantine/spotlight": "^6.0.2",
+    "embla-carousel-react": "^7.1.0",
+    "next": "^13.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "devDependencies": {
+    "@types/node": "18.15.3",
+    "@types/react": "18.0.28",
+    "eslint-config-next": "^13.2.4",
+    "typescript": "^5.0.2"
+  }
+}
