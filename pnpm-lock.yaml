@@ -13,6 +13,7 @@ specifiers:
   '@mantine/notifications': ^6.0.2
   '@mantine/nprogress': ^6.0.2
   '@mantine/spotlight': ^6.0.2
+  '@tabler/icons-react': ^2.10.0
   '@types/node': 18.15.3
   '@types/react': 18.0.28
   embla-carousel-react: ^7.1.0
@@ -35,6 +36,7 @@ dependencies:
   '@mantine/notifications': 6.0.2_reujnkpez4ozmj6vonlofpozxe
   '@mantine/nprogress': 6.0.2_reujnkpez4ozmj6vonlofpozxe
   '@mantine/spotlight': 6.0.2_reujnkpez4ozmj6vonlofpozxe
+  '@tabler/icons-react': 2.10.0_react@18.2.0
   embla-carousel-react: 7.1.0_react@18.2.0
   next: 13.2.4_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -699,6 +701,20 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.5.0
+    dev: false
+
+  /@tabler/icons-react/2.10.0_react@18.2.0:
+    resolution: {integrity: sha512-cWJPhPv7QG89OByVaMc3cs0mY9yIHf4ctoRrjQ4+uXjna2xx0SkwfXAtgt8UhRnp/b47Pr3h59P8Vojw49d2jA==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tabler/icons': 2.10.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /@tabler/icons/2.10.0:
+    resolution: {integrity: sha512-rj9xrHTSw7bPpylx8g9xhhUgO9NYKX1wGnGrMaFS5CQ9KS+jhwhKFqbZaQKhXNhpvI0cLEEW6GaRXdrC3iBs1A==}
     dev: false
 
   /@types/json5/0.0.29:
