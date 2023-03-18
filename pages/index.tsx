@@ -103,11 +103,11 @@ export default function Page() {
         <Slider
           max={512}
           min={16}
+          step={8}
           value={imageSize}
           onChange={setImageSize}
           marks={[
             { value: 16, label: "16px" },
-            { value: 24, label: "24px" },
             { value: 32, label: "32px" },
             { value: 64, label: "64px" },
             { value: 128, label: "128px" },
