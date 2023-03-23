@@ -46,9 +46,9 @@ export default async function handler(
     res.status(500).json({ status: "error" });
   } else if (message === "running") {
     res.status(200).json({ status: "running" });
+  } else {
+    res.status(200).json({ status: "queued" });
   }
-
-  res.status(200).json({ status: "queued" });
 }
 
 export const config = {
