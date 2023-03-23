@@ -59,6 +59,7 @@ export const GeneratedImage: FC<GeneratedImageProps> = ({
         src={src}
         withPlaceholder={!isImageLoaded}
         placeholder={<Loader size="lg" />}
+        alt={prompt}
       />
       {isImageLoaded && isOverlayVisible ? (
         <Overlay blur={15} center opacity={0.1} radius="md">

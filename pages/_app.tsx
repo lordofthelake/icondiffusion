@@ -1,6 +1,22 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { SWRConfig } from "swr";
+
+const fetcher = async ({ url, method = "GET", args = null }) => {
+  const requestUrl = new URL(url, location.href);
+  if (args) {
+    for (const [arg, value] of Object.entries(args)) {
+      requestUrl.searchParams.append(arg, value as string);
+    }
+  }
+
+  const result = await fetch(requestUrl, {
+    method,
+  });
+
+  return result.json();
+};
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -44,7 +60,9 @@ export default function App(props: AppProps) {
           colorScheme: "light",
         }}
       >
-        <Component {...pageProps} />
+        <SWRConfig value={{ fetcher, revalidateOnFocus: false }}>
+          <Component {...pageProps} />
+        </SWRConfig>
       </MantineProvider>
     </>
   );

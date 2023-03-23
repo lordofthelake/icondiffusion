@@ -12,51 +12,28 @@ import {
 import { useCallback, useState } from "react";
 import { IconArrowRight, IconX } from "@tabler/icons-react";
 import { GeneratedImage } from "$/components/GeneratedImage";
-
-type ImageSources = [string | null, string | null, string | null];
-
-const NO_SOURCES: ImageSources = [null, null, null];
+import { useGenerationApi } from "$/hooks/useGenerationApi";
 
 export default function Page() {
-  const [apiState, setApiState] = useState<"idle" | "loading" | "completed">(
-    "idle"
-  );
   const [prompt, setPrompt] = useState("");
+  const [submittedPrompt, setSubmittedPrompt] = useState("");
+
+  const api = useGenerationApi(submittedPrompt);
   const [imageSize, setImageSize] = useState(256);
-  const [imageSources, setImageSources] = useState<ImageSources>(NO_SOURCES);
-
-  const updatePrompt = useCallback((value: string) => {
-    if (value === "") {
-      setApiState("idle");
-      setImageSources(NO_SOURCES);
-    }
-
-    setPrompt(value);
-  }, []);
 
   const onPromptChange = useCallback((e) => {
-    updatePrompt(e.target.value);
+    setPrompt(e.target.value);
   }, []);
 
   const onResetPrompt = useCallback(() => {
-    updatePrompt("");
+    setPrompt("");
+    setSubmittedPrompt("");
   }, []);
 
   const onSubmitPrompt = useCallback(
     (e) => {
       e.preventDefault();
-
-      setApiState("loading");
-
-      const apiUrl = new URL("/api/generate", location.href);
-      apiUrl.searchParams.append("prompt", prompt);
-
-      fetch(apiUrl)
-        .then((res) => res.json())
-        .then((json) => {
-          setApiState("completed");
-          setImageSources(json.images);
-        });
+      setSubmittedPrompt(prompt);
     },
     [prompt]
   );
@@ -74,9 +51,10 @@ export default function Page() {
       </ActionIcon>
     ),
 
-    loading: <Loader size="lg" />,
+    running: <Loader size="lg" />,
+    queued: <Loader size="lg" />,
 
-    completed: (
+    success: (
       <ActionIcon size="xl" radius="xl" variant="light" onClick={onResetPrompt}>
         <IconX size="1.5rem" />
       </ActionIcon>
@@ -87,7 +65,7 @@ export default function Page() {
     <Container size="md" pt="xl">
       <Stack spacing="xl">
         <Center inline>
-          <Image src="/logo.svg" width={300} />
+          <Image src="/logo.svg" width={300} alt="Icon Diffusion" />
         </Center>
         <form onSubmit={onSubmitPrompt}>
           <TextInput
@@ -96,7 +74,7 @@ export default function Page() {
             size="xl"
             placeholder="Your prompt"
             radius="xl"
-            rightSection={promptIndicator[apiState]}
+            rightSection={promptIndicator[api.status]}
             onSubmit={onSubmitPrompt}
           />
         </form>
@@ -115,7 +93,7 @@ export default function Page() {
             { value: 512, label: "512px" },
           ]}
         />
-        {apiState !== "idle" ? (
+        {api.status === "success" ? (
           <Flex
             gap="sm"
             wrap="wrap"
@@ -124,7 +102,7 @@ export default function Page() {
               paddingTop: theme.spacing.xl,
             })}
           >
-            {imageSources.map((src, i) => (
+            {api.paths.map((src, i) => (
               <GeneratedImage
                 size={imageSize}
                 src={src}
