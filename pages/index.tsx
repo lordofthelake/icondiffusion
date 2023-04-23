@@ -10,16 +10,35 @@ import {
   ActionIcon,
   Badge,
 } from "@mantine/core";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IconArrowRight, IconX } from "@tabler/icons-react";
 import { GeneratedImage } from "$/components/GeneratedImage";
 import { useGenerationApi } from "$/hooks/useGenerationApi";
+import { useScheduledRerender } from "$/hooks/useScheduledRerender";
 
 export default function Page() {
   const [prompt, setPrompt] = useState("");
   const [submittedPrompt, setSubmittedPrompt] = useState("");
+  const [submittedPromptTime, setSubmittedPromptTime] = useState<number | null>(
+    null
+  );
 
   const api = useGenerationApi(submittedPrompt);
+
+  let delayedApi = api;
+  let appliedDelay = 0;
+
+  if (
+    api.status === "success" &&
+    submittedPromptTime &&
+    +new Date() - +submittedPromptTime < 3000
+  ) {
+    delayedApi = { status: "running" };
+    appliedDelay = 3001;
+  }
+
+  useScheduledRerender(appliedDelay);
+
   const [imageSize, setImageSize] = useState(256);
 
   const onPromptChange = useCallback((e) => {
@@ -29,12 +48,14 @@ export default function Page() {
   const onResetPrompt = useCallback(() => {
     setPrompt("");
     setSubmittedPrompt("");
+    setSubmittedPromptTime(null);
   }, []);
 
   const onSubmitPrompt = useCallback(
     (e) => {
       e.preventDefault();
       setSubmittedPrompt(prompt);
+      setSubmittedPromptTime(+new Date());
     },
     [prompt]
   );
@@ -80,7 +101,7 @@ export default function Page() {
             size="xl"
             placeholder="Your prompt"
             radius="xl"
-            rightSection={promptIndicator[api.status]}
+            rightSection={promptIndicator[delayedApi.status]}
             onSubmit={onSubmitPrompt}
           />
         </form>
@@ -99,7 +120,7 @@ export default function Page() {
             { value: 512, label: "512px" },
           ]}
         />
-        {api.status === "success" ? (
+        {delayedApi.status === "success" ? (
           <Flex
             gap="sm"
             wrap="wrap"
@@ -108,7 +129,7 @@ export default function Page() {
               paddingTop: theme.spacing.xl,
             })}
           >
-            {api.paths.map((src, i) => (
+            {delayedApi.paths.map((src, i) => (
               <GeneratedImage
                 size={imageSize}
                 src={src}
