@@ -1,4 +1,4 @@
-import { runImagePipeline } from "$/pipeline";
+import { augmentPrompt, runImagePipeline } from "$/pipeline";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type CheckResponse =
@@ -72,11 +72,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { callID } = req.query;
+  const augmentedPrompt = augmentPrompt(callID as string);
+
   const { message, modelOutputs } = mergeResponses(
     await Promise.all([
-      queryCheck(callID as string),
-      queryCheck(callID as string),
-      queryCheck(callID as string),
+      queryCheck(augmentedPrompt),
+      queryCheck(augmentedPrompt),
+      queryCheck(augmentedPrompt),
     ])
   );
 

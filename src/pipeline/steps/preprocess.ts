@@ -1,15 +1,17 @@
 import sharp from "sharp";
 
+const BLACK_PIXEL = Buffer.from([0, 0, 0, 1]);
+
 export async function preprocess(buf: Buffer): Promise<Buffer> {
-  const img = sharp(buf);
+  const img = sharp(buf).toFormat("png").toColorspace("b-w");
+  const output = await img.toBuffer();
 
-  const trimmed = img.trim();
-  const rightSized = trimmed.resize({
-    width: 512,
-    height: 512,
-    fit: "contain",
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-  });
+  const stats = await img.stats();
+  console.log({ stats });
 
-  return rightSized.toBuffer();
+  if (output.subarray(0, 4).equals(BLACK_PIXEL)) {
+    return img.negate({ alpha: false }).toBuffer();
+  } else {
+    return output;
+  }
 }
