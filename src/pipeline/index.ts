@@ -1,12 +1,10 @@
 import { encode } from "./steps/encode";
-import { rightSize } from "./steps/rightSize";
-import { trim } from "./steps/trim";
+import { preprocess } from "./steps/preprocess";
 import { vectorize } from "./steps/vectorize";
 
 export async function runImagePipeline(buf: Buffer): Promise<string> {
-  const trimmed = await trim(buf);
-  const rightSized = await rightSize(trimmed);
-  const svg = await vectorize(rightSized);
+  const preprocessed = await preprocess(buf);
+  const svg = await vectorize(preprocessed);
   const encoded = encode(svg);
 
   return encoded;

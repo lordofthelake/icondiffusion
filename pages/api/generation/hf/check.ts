@@ -8,6 +8,7 @@ type CheckResponse =
 const MODEL = "pskl/icondiffusion";
 
 async function queryCheck(callID: string): Promise<CheckResponse> {
+  const requestStart = new Date();
   const response = await fetch(
     `https://api-inference.huggingface.co/models/${MODEL}`,
     {
@@ -24,12 +25,13 @@ async function queryCheck(callID: string): Promise<CheckResponse> {
       }),
     }
   );
+  const elapsed = +new Date() - +requestStart;
 
   const { status } = response;
   let text = null;
   if (status !== 200) text = await response.text();
 
-  console.log(`POST /models/${MODEL}`, { callID, status, text });
+  console.log(`POST /models/${MODEL}`, { callID, status, text, elapsed });
 
   switch (status) {
     case 200: {
@@ -79,9 +81,11 @@ export default async function handler(
   );
 
   if (modelOutputs) {
+    const pipelineStart = new Date();
     const paths = await Promise.all(
       modelOutputs.map((img) => runImagePipeline(img))
     );
+    console.log("Pipeline ran ", +new Date() - +pipelineStart);
     res.status(200).json({ status: "success", paths });
   } else if (message === "error") {
     res.status(500).json({ status: "error" });

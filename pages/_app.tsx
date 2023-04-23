@@ -28,7 +28,7 @@ const onErrorRetry: SWRConfiguration["onErrorRetry"] = (
   revalidate,
   revalidateOpts
 ) => {
-  if (error.response?.status === 503) {
+  if ([502, 503, 504].includes(error.response?.status)) {
     return defaultSwrConfig.onErrorRetry(
       error,
       key,
