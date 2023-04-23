@@ -3,6 +3,8 @@ import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { SWRConfig } from "swr";
 import { Analytics } from "@vercel/analytics/react";
+import { SWRConfiguration } from "swr";
+import { defaultConfig as defaultSwrConfig } from "swr/_internal";
 
 const fetcher = async ({ url, method = "GET", args = null }) => {
   const requestUrl = new URL(url, location.href);
@@ -17,6 +19,27 @@ const fetcher = async ({ url, method = "GET", args = null }) => {
   });
 
   return result.json();
+};
+
+const onErrorRetry: SWRConfiguration["onErrorRetry"] = (
+  error,
+  key,
+  config,
+  revalidate,
+  revalidateOpts
+) => {
+  if (error.response?.status === 503) {
+    return defaultSwrConfig.onErrorRetry(
+      error,
+      key,
+      config,
+      revalidate,
+      revalidateOpts
+    );
+  }
+
+  // Otherwise, just use the default handling
+  return;
 };
 
 export default function App(props: AppProps) {
@@ -61,7 +84,7 @@ export default function App(props: AppProps) {
           colorScheme: "light",
         }}
       >
-        <SWRConfig value={{ fetcher, revalidateOnFocus: false }}>
+        <SWRConfig value={{ fetcher, revalidateOnFocus: false, onErrorRetry }}>
           <Component {...pageProps} />
           <Analytics />
         </SWRConfig>
