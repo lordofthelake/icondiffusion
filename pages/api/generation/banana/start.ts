@@ -29,7 +29,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const prompt = req.query.prompt as string;
-  const result = await queryStart({ prompt });
+  const result = await queryStart({ prompt, samples: 1 });
 
   if (result.message === "error") {
     res.status(500).json({ status: "error" });

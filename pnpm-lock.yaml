@@ -18,6 +18,7 @@ specifiers:
   '@types/potrace': ^2.1.1
   '@types/react': 18.0.28
   '@types/sharp': ^0.31.1
+  '@vercel/analytics': ^1.0.0
   embla-carousel-react: ^7.1.0
   eslint: 8.36.0
   eslint-config-next: ^13.2.4
@@ -43,6 +44,7 @@ dependencies:
   '@mantine/nprogress': 6.0.2_reujnkpez4ozmj6vonlofpozxe
   '@mantine/spotlight': 6.0.2_reujnkpez4ozmj6vonlofpozxe
   '@tabler/icons-react': 2.10.0_react@18.2.0
+  '@vercel/analytics': 1.0.0_react@18.2.0
   embla-carousel-react: 7.1.0_react@18.2.0
   next: 13.2.4_biqbaboplfbrettd7655fr4n2y
   potrace: 2.1.8
@@ -1642,6 +1644,14 @@ packages:
       '@typescript-eslint/types': 5.55.0
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@vercel/analytics/1.0.0_react@18.2.0:
+    resolution: {integrity: sha512-RQmj7pv82JwGDHrnKeRc6TtSw2U7rWNubc2IH0ernTzWTj02yr9zvIYiYJeztsBzrJtWv7m8Nz6vxxb+cdEtJw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /acorn-jsx/5.3.2_acorn@8.8.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}

@@ -2,6 +2,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { SWRConfig } from "swr";
+import { Analytics } from "@vercel/analytics/react";
 
 const fetcher = async ({ url, method = "GET", args = null }) => {
   const requestUrl = new URL(url, location.href);
@@ -62,6 +63,7 @@ export default function App(props: AppProps) {
       >
         <SWRConfig value={{ fetcher, revalidateOnFocus: false }}>
           <Component {...pageProps} />
+          <Analytics />
         </SWRConfig>
       </MantineProvider>
     </>
