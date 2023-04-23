@@ -17,14 +17,19 @@ async function queryCheck(callID: string): Promise<CheckResponse> {
         Authorization: `Bearer ${process.env.HF_TOKEN}`,
       },
       body: JSON.stringify({
-        inputs: `${callID}, asim style`,
+        inputs: `${callID}`,
+        options: {
+          use_cache: false,
+        },
       }),
     }
   );
 
   const { status } = response;
+  let text = null;
+  if (status !== 200) text = await response.text();
 
-  console.log(`POST /models/${MODEL}`, { callID, status });
+  console.log(`POST /models/${MODEL}`, { callID, status, text });
 
   switch (status) {
     case 200: {
@@ -47,12 +52,31 @@ async function queryCheck(callID: string): Promise<CheckResponse> {
   }
 }
 
+const mergeResponses = (responses: CheckResponse[]): CheckResponse => {
+  if (responses.every((res) => res.message === "success"))
+    return {
+      message: "success",
+      modelOutputs: responses.flatMap((res) => res.modelOutputs),
+    };
+
+  if (responses.some((res) => res.message === "error"))
+    return { message: "error", modelOutputs: null };
+
+  return { message: "running", modelOutputs: null };
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { callID } = req.query;
-  const { message, modelOutputs } = await queryCheck(callID as string);
+  const { message, modelOutputs } = mergeResponses(
+    await Promise.all([
+      queryCheck(callID as string),
+      queryCheck(callID as string),
+      queryCheck(callID as string),
+    ])
+  );
 
   if (modelOutputs) {
     const paths = await Promise.all(
