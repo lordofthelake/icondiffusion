@@ -8,6 +8,7 @@ import {
   Flex,
   Slider,
   ActionIcon,
+  Badge,
 } from "@mantine/core";
 import { useCallback, useState } from "react";
 import { IconArrowRight, IconX } from "@tabler/icons-react";
@@ -66,6 +67,11 @@ export default function Page() {
       <Stack spacing="xl">
         <Center inline>
           <Image src="/logo.svg" width={300} alt="Icon Diffusion" />
+          <sup>
+            <Badge size="xs" variant="outline">
+              alpha
+            </Badge>
+          </sup>
         </Center>
         <form onSubmit={onSubmitPrompt}>
           <TextInput
