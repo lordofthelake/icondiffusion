@@ -106,3 +106,4 @@ dist
 .DS_Store
 data/samples
 package-lock.json
+pnpm-lock.yaml
