@@ -10,11 +10,13 @@ import {
   ActionIcon,
   Badge,
 } from "@mantine/core";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { IconArrowRight, IconX } from "@tabler/icons-react";
 import { GeneratedImage } from "$/components/GeneratedImage";
 import { useGenerationApi } from "$/hooks/useGenerationApi";
 import { useScheduledRerender } from "$/hooks/useScheduledRerender";
+
+const CACHED_IMG_RENDER_DELAY = 3000;
 
 export default function Page() {
   const [prompt, setPrompt] = useState("");
@@ -31,10 +33,10 @@ export default function Page() {
   if (
     api.status === "success" &&
     submittedPromptTime &&
-    +new Date() - +submittedPromptTime < 3000
+    +new Date() - +submittedPromptTime < CACHED_IMG_RENDER_DELAY
   ) {
     delayedApi = { status: "running" };
-    appliedDelay = 3001;
+    appliedDelay = CACHED_IMG_RENDER_DELAY + 1;
   }
 
   useScheduledRerender(appliedDelay);
