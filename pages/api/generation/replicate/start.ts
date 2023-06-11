@@ -22,7 +22,7 @@ async function queryStart({ prompt, samples }): Promise<StartResponse> {
         prompt: `icon of ${prompt}, <1>`,
         num_outputs: samples,
         lora_urls:
-          "https://replicate.delivery/pbxt/c32Ba8UOS6bFDBwybc16WDREfzWCqeCRUzL3YtTgNrTIrqaQA/tmpan_f4msxcaravaggio.safetensors",
+          "https://icondiffusion.vercel.app/model/icondiffusion-20230611.01.safetensors",
       },
     }),
   });
