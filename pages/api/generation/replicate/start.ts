@@ -56,7 +56,7 @@ export default async function handler(
 ) {
   const prompt = req.query.prompt as string;
 
-  let result = { message: "error" };
+  let result = { message: "error" } as StartResponse;
   try {
     result = await queryStart({ prompt, samples: 3 });
   } catch (error: unknown) {
