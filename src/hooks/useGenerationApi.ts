@@ -8,7 +8,7 @@ type GenerationStatus =
   | { status: "success"; paths: string[] }
   | { status: "error" };
 
-const GENERATION_BACKEND = process.env.GENERATION_BACKEND ?? "hf";
+const GENERATION_BACKEND = process.env.NEXT_PUBLIC_GENERATION_BACKEND ?? "hf";
 
 export function useGenerationApi(prompt: string): GenerationStatus {
   const callID = useRef<string | null>(null);
