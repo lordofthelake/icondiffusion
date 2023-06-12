@@ -19,7 +19,7 @@ async function queryStart({ prompt, samples }): Promise<StartResponse> {
 
       // This is the text prompt that will be submitted by a form on the frontend
       input: {
-        prompt: `a painting of ${prompt}, interface icon in the style of <1>, white background, centered`,
+        prompt: `a render of ${prompt} in the style of <1>`,
         num_outputs: samples,
         lora_urls:
           "https://icondiffusion.vercel.app/model/icondiffusion-20230611.02.safetensors",
