@@ -27,6 +27,15 @@ export async function runImagePipeline(buf: Buffer): Promise<string> {
   return encoded;
 }
 
+/**
+ * This function takes in a string prompt as an argument and returns an augmented version of the prompt.
+ *
+ * If the environment variable `RAW_PROMPT` is defined, the function returns the original prompt as is.
+ * If `RAW_PROMPT` is not defined, the function returns a new string which includes the original prompt augmented with various keywords to improve the output quality.
+ *
+ * @param {string} prompt - The original prompt string
+ * @returns {string} - The augmented prompt.
+ */
 export function augmentPrompt(prompt: string): string {
   if (process.env.RAW_PROMPT) return prompt;
   else
