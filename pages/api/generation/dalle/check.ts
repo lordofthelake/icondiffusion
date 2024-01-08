@@ -21,10 +21,10 @@ export default async function handler(
 
   try {
     const stringifiedBody = JSON.stringify({
-      model: "dall-e-2",
+      model: "dall-e-3",
       prompt: augmentedPrompt,
       n: 1,
-      size: "256x256"
+      size: "1024x1024"
     });
 
     const response = await fetch('https://api.openai.com/v1/images/generations', {
@@ -41,7 +41,12 @@ export default async function handler(
     const imageUrls = data.data.map(item => item.url); // Extract URL from each data object
 
     const paths = await Promise.all(
-      imageUrls.map((img) => runImagePipeline(Buffer.from(img)))
+      (imageUrls).map((url) =>
+        fetch(url)
+          .then((res) => res.arrayBuffer())
+          .then((arrayBuf) => Buffer.from(arrayBuf))
+          .then((img) => runImagePipeline(img))
+      )
     );
     res.status(200).json({ message: 'success', paths });
   } catch (error: any) {
