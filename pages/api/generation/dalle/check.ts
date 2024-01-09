@@ -21,10 +21,10 @@ export default async function handler(
 
   try {
     const stringifiedBody = JSON.stringify({
-      model: "dall-e-3",
+      model: "dall-e-2",
       prompt: augmentedPrompt,
-      n: 1,
-      size: "1024x1024"
+      n: 3,
+      size: "256x256"
     });
 
     const response = await fetch('https://api.openai.com/v1/images/generations', {
