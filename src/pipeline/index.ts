@@ -39,5 +39,5 @@ export async function runImagePipeline(buf: Buffer): Promise<string> {
 export function augmentPrompt(prompt: string): string {
   if (process.env.RAW_PROMPT) return prompt;
   else
-    return `illustration of ${prompt}, realistic, low poly, 3d render, illustrator, beautiful, high quality, flat illustration, svg, eps, vector illustration, high definition, centered, asim style`;
+    return `icon of ${prompt}, white background, centered`;
 }
